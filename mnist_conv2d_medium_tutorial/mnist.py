@@ -1,7 +1,7 @@
 import numpy as np
 
-IMAGE_SIZE = 28
-
+IMAGE_SIZE = 64
+NUM_LABELS = 196
 
 def load_train_data(data_path, validation_size=500):
     """
@@ -10,11 +10,12 @@ def load_train_data(data_path, validation_size=500):
     """
     # Data format: 1 byte label, 28 * 28 input
     train_data = np.genfromtxt(data_path, delimiter=',', dtype=np.float32)
+    np.random.shuffle(train_data)
     x_train = train_data[:, 1:]
 
     # Get label and one-hot encode
     y_train = train_data[:, 0]
-    y_train = (np.arange(10) == y_train[:, None]).astype(np.float32)
+    y_train = (np.arange(NUM_LABELS) == y_train[:, None]).astype(np.float32)
 
     # get a validation set and remove it from the train set
     x_train, x_val, y_train, y_val = x_train[0:(len(x_train) - validation_size), :], x_train[(
@@ -35,10 +36,11 @@ def load_test_data(data_path):
     :return: 3D Tensor input of train and validation set with 2D Tensor of one hot encoded image labels
     """
     test_data = np.genfromtxt(data_path, delimiter=',', dtype=np.float32)
+    np.random.shuffle(test_data)    
     x_test = test_data[:, 1:]
 
     y_test = np.array(test_data[:, 0])
-    y_test = (np.arange(10) == y_test[:, None]).astype(np.float32)
+    y_test = (np.arange(NUM_LABELS) == y_test[:, None]).astype(np.float32)
 
     x_test = x_test.reshape(len(x_test), IMAGE_SIZE, IMAGE_SIZE, 1)
 

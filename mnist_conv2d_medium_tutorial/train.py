@@ -4,7 +4,7 @@ import mnist_conv2d_medium_tutorial.mnist as mnist
 from mnist_conv2d_medium_tutorial.model import Model
 
 FLAGS = tf.app.flags.FLAGS
-NUM_LABELS = 10
+NUM_LABELS = 196
 
 
 def train():
@@ -54,9 +54,9 @@ def main(argv=None):
 
 if __name__ == '__main__':
     tf.app.flags.DEFINE_integer('batch_size', 16, 'size of training batches')
-    tf.app.flags.DEFINE_integer('num_iter', 1000, 'number of training iterations')
+    tf.app.flags.DEFINE_integer('num_iter', 10000, 'number of training iterations')
     tf.app.flags.DEFINE_string('checkpoint_file_path', 'checkpoints/model.ckpt-10000', 'path to checkpoint file')
-    tf.app.flags.DEFINE_string('train_data', 'data/mnist_train.csv', 'path to train and test data')
+    tf.app.flags.DEFINE_string('train_data', 'data/cars_train.csv', 'path to train and test data')
     tf.app.flags.DEFINE_string('summary_dir', 'graphs', 'path to directory for storing summaries')
 
     tf.app.run()

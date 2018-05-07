@@ -1,8 +1,9 @@
 import tensorflow as tf
 
+NUM_LABELS = 196
 
 class Model(object):
-    def __init__(self, batch_size=16, learning_rate=1e-4, num_labels=10):
+    def __init__(self, batch_size=16, learning_rate=1e-4, num_labels=NUM_LABELS):
         self._batch_size = batch_size
         self._learning_rate = learning_rate
         self._num_labels = num_labels
