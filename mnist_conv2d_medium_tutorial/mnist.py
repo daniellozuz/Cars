@@ -1,6 +1,6 @@
 import numpy as np
 
-IMAGE_SIZE = 28
+IMAGE_SIZE = 56
 NUM_LABELS = 196
 
 def load_train_data(data_path, validation_size=500):

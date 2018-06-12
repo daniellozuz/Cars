@@ -32,14 +32,14 @@ class Model(object):
         h_pool2 = self._create_max_pool_2x2(conv2)
 
         with tf.variable_scope('local1') as scope:
-            reshape = tf.reshape(h_pool2, [-1, 7 * 7 * 16])
-            W_fc1 = self._create_weights([7 * 7 * 16, 256])
-            b_fc1 = self._create_bias([256])
+            reshape = tf.reshape(h_pool2, [-1, 14 * 14 * 16])
+            W_fc1 = self._create_weights([14 * 14 * 16, 1024])
+            b_fc1 = self._create_bias([1024])
             local1 = tf.nn.relu(tf.matmul(reshape, W_fc1) + b_fc1, name=scope.name)
             self._activation_summary(local1)
 
         with tf.variable_scope('local2_linear') as scope:
-            W_fc2 = self._create_weights([256, self._num_labels])
+            W_fc2 = self._create_weights([1024, self._num_labels])
             b_fc2 = self._create_bias([self._num_labels])
             local1_drop = tf.nn.dropout(local1, keep_prob)
             local2 = tf.nn.bias_add(tf.matmul(local1_drop, W_fc2), b_fc2, name=scope.name)
