@@ -18,8 +18,9 @@ with open(os.path.join('data', 'cars_all.csv'), 'w') as car_file,\
     all_writer = csv.writer(car_file)
     train_writer = csv.writer(train_file)
     test_writer = csv.writer(test_file)
-    for index, file_name in enumerate(sorted(os.listdir(os.path.join('data', 'cars_all')))):
-        image = cv2.imread(os.path.join('data', 'cars_all', file_name), 0)
+    cars_all_dir = os.path.join('data', 'cars_all')
+    for index, file_name in enumerate(sorted(os.listdir(cars_all_dir))):
+        image = cv2.imread(os.path.join(cars_all_dir, file_name), 0)
         print(file_name)
         y1 = mat['annotations'][0][index][1][0][0]
         x1 = mat['annotations'][0][index][2][0][0]
@@ -27,7 +28,7 @@ with open(os.path.join('data', 'cars_all.csv'), 'w') as car_file,\
         x2 = mat['annotations'][0][index][4][0][0]
         label = mat['annotations'][0][index][5][0][0]
         # cv2.imshow('Car cropped', image[x1:x2, y1:y2])
-        resized = cv2.resize(image[x1:x2, y1:y2], (64, 64))
+        resized = cv2.resize(image[x1:x2, y1:y2], (28, 28))
         # cv2.imshow('Car resized', resized)
         # cv2.waitKey(100)
         entry = [label] + [item for row in resized for item in row]
