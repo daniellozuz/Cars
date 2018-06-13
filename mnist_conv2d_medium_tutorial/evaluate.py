@@ -1,15 +1,21 @@
 import tensorflow as tf
+import os
+import yaml
+import sys
 
 from mnist_conv2d_medium_tutorial import mnist
 from mnist_conv2d_medium_tutorial.model import Model
+
+
+CONFIG = yaml.load(open(os.path.join('config', sys.argv[1]), 'r'))
 
 FLAGS = tf.app.flags.FLAGS
 
 
 def evaluate():
     with tf.Graph().as_default():
-        images, labels = mnist.load_test_data(FLAGS.test_data)
-        model = Model()
+        images, labels = mnist.load_test_data(FLAGS.test_data, **CONFIG)
+        model = Model(**CONFIG)
         logits = model.inference(images, keep_prob=1.0)
         accuracy = model.accuracy(logits, labels)
         saver = tf.train.Saver()

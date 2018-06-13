@@ -1,14 +1,7 @@
 import numpy as np
-import os
-import yaml
 
 
-CONFIG = yaml.load(open(os.path.join('config', '1.yml'), 'r'))
-NUM_LABELS = CONFIG['NUM_LABELS']
-IMAGE_SIZE = CONFIG['IMAGE_SIZE']
-
-
-def load_train_data(data_path, validation_size=500):
+def load_train_data(data_path, num_labels, image_size, validation_size=500, **kwargs):
     """
     Load mnist data. Each row in csv is formatted (label, input)
     :return: 3D Tensor input of train and validation set with 2D Tensor of one hot encoded image labels
@@ -20,7 +13,7 @@ def load_train_data(data_path, validation_size=500):
 
     # Get label and one-hot encode
     y_train = train_data[:, 0]
-    y_train = (np.arange(NUM_LABELS) == y_train[:, None]).astype(np.float32)
+    y_train = (np.arange(num_labels) == y_train[:, None]).astype(np.float32)
 
     # get a validation set and remove it from the train set
     x_train, x_val, y_train, y_val = x_train[0:(len(x_train) - validation_size), :], x_train[(
@@ -29,13 +22,13 @@ def load_train_data(data_path, validation_size=500):
         len(y_train) - validation_size):len(y_train), :]
 
     # reformat the data so it's not flat
-    x_train = x_train.reshape(len(x_train), IMAGE_SIZE, IMAGE_SIZE, 1)
-    x_val = x_val.reshape(len(x_val), IMAGE_SIZE, IMAGE_SIZE, 1)
+    x_train = x_train.reshape(len(x_train), image_size, image_size, 1)
+    x_val = x_val.reshape(len(x_val), image_size, image_size, 1)
 
     return x_train, x_val, y_train, y_val
 
 
-def load_test_data(data_path):
+def load_test_data(data_path, num_labels, image_size, **kwargs):
     """
     Load mnist test data
     :return: 3D Tensor input of train and validation set with 2D Tensor of one hot encoded image labels
@@ -45,8 +38,8 @@ def load_test_data(data_path):
     x_test = test_data[:, 1:]
 
     y_test = np.array(test_data[:, 0])
-    y_test = (np.arange(NUM_LABELS) == y_test[:, None]).astype(np.float32)
+    y_test = (np.arange(num_labels) == y_test[:, None]).astype(np.float32)
 
-    x_test = x_test.reshape(len(x_test), IMAGE_SIZE, IMAGE_SIZE, 1)
+    x_test = x_test.reshape(len(x_test), image_size, image_size, 1)
 
     return x_test, y_test

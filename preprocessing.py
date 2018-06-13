@@ -10,11 +10,10 @@ import scipy.io
 import csv
 import random
 import yaml
+import sys
 
 
-CONFIG = yaml.load(open(os.path.join('config', '1.yml'), 'r'))
-NUM_LABELS = CONFIG['NUM_LABELS']
-IMAGE_SIZE = CONFIG['IMAGE_SIZE']
+CONFIG = yaml.load(open(os.path.join('config', sys.argv[1]), 'r'))
 
 mat = scipy.io.loadmat(os.path.join('data', 'cars_annos.mat'))
 
@@ -32,9 +31,9 @@ with open(os.path.join('data', 'cars_all.csv'), 'w') as car_file,\
         y2 = mat['annotations'][0][index][3][0][0]
         x2 = mat['annotations'][0][index][4][0][0]
         label = mat['annotations'][0][index][5][0][0]
-        if label > NUM_LABELS:
+        if label > CONFIG['num_labels']:
             break
-        resized = cv2.resize(image[x1:x2, y1:y2], (IMAGE_SIZE, IMAGE_SIZE))
+        resized = cv2.resize(image[x1:x2, y1:y2], (CONFIG['image_size'], CONFIG['image_size']))
         entry = [label] + [item for row in resized for item in row]
         all_writer.writerow(entry)
         if index % 2 == 0:
