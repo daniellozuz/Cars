@@ -26,14 +26,17 @@ def evaluate():
 
             total_accuracy = sess.run([accuracy])
             print('Test accuracy: {}'.format(total_accuracy))
-
+            better = 100 * (total_accuracy[0] * CONFIG['num_labels'] - 1)
+            print('{}% better than random'.format(better))
+            with open('results.txt', 'a') as results_file:
+                results_file.write('{} {} {}\n'.format(sys.argv[1], total_accuracy[0], better))
 
 def main(argv=None):
     evaluate()
 
 
 if __name__ == '__main__':
-    tf.app.flags.DEFINE_string('checkpoint_file_path', 'checkpoints/model.ckpt-1000-1000', 'path to checkpoint file')
+    tf.app.flags.DEFINE_string('checkpoint_file_path', 'checkpoints/model.ckpt-' + str(CONFIG['num_iter']) + '-' + str(CONFIG['num_iter']), 'path to checkpoint file')
     tf.app.flags.DEFINE_string('test_data', 'data/cars_test.csv', 'path to test data')
 
     tf.app.run()

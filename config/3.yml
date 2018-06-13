@@ -1,0 +1,7 @@
+num_labels: 194
+image_size: 28
+num_iter: 1000
+k: 5
+c1: 8
+c2: 16
+p: 256

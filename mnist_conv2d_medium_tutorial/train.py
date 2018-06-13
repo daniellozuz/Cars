@@ -44,8 +44,8 @@ def train():
                 _, cur_loss, summary = sess.run([train_op, loss, summary_op],
                                                 feed_dict={x: batch_x, y: batch_y, keep_prob: 0.5})
                 writer.add_summary(summary, i)
-                print(i, cur_loss)
-                if i % int(CONFIG['num_iter'] / 20) == 0:
+                #print(i, cur_loss)
+                if i % int(CONFIG['num_iter'] / 10) == 0:
                     validation_accuracy = accuracy.eval(feed_dict={x: val_images, y: val_labels, keep_prob: 1.0})
                     print('Iter {} Accuracy: {}'.format(i, validation_accuracy))
 
