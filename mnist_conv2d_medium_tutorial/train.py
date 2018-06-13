@@ -1,10 +1,17 @@
 import tensorflow as tf
+import os
+import yaml
 
 import mnist_conv2d_medium_tutorial.mnist as mnist
 from mnist_conv2d_medium_tutorial.model import Model
 
+
+
+CONFIG = yaml.load(open(os.path.join('config', '1.yml'), 'r'))
+NUM_LABELS = CONFIG['NUM_LABELS']
+NUM_ITER = CONFIG['NUM_ITER']
+
 FLAGS = tf.app.flags.FLAGS
-NUM_LABELS = 196
 
 
 def train():
@@ -40,7 +47,7 @@ def train():
                                                 feed_dict={x: batch_x, y: batch_y, keep_prob: 0.5})
                 writer.add_summary(summary, i)
                 print(i, cur_loss)
-                if i % 1000 == 0:
+                if i % int(NUM_ITER / 20) == 0:
                     validation_accuracy = accuracy.eval(feed_dict={x: val_images, y: val_labels, keep_prob: 1.0})
                     print('Iter {} Accuracy: {}'.format(i, validation_accuracy))
 
@@ -54,8 +61,8 @@ def main(argv=None):
 
 if __name__ == '__main__':
     tf.app.flags.DEFINE_integer('batch_size', 16, 'size of training batches')
-    tf.app.flags.DEFINE_integer('num_iter', 10000, 'number of training iterations')
-    tf.app.flags.DEFINE_string('checkpoint_file_path', 'checkpoints/model.ckpt-10000', 'path to checkpoint file')
+    tf.app.flags.DEFINE_integer('num_iter', NUM_ITER, 'number of training iterations')
+    tf.app.flags.DEFINE_string('checkpoint_file_path', 'checkpoints/model.ckpt-' + str(NUM_ITER), 'path to checkpoint file')
     tf.app.flags.DEFINE_string('train_data', 'data/cars_train.csv', 'path to train and test data')
     tf.app.flags.DEFINE_string('summary_dir', 'graphs', 'path to directory for storing summaries')
 

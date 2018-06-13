@@ -1,7 +1,12 @@
 import numpy as np
+import os
+import yaml
 
-IMAGE_SIZE = 56
-NUM_LABELS = 196
+
+CONFIG = yaml.load(open(os.path.join('config', '1.yml'), 'r'))
+NUM_LABELS = CONFIG['NUM_LABELS']
+IMAGE_SIZE = CONFIG['IMAGE_SIZE']
+
 
 def load_train_data(data_path, validation_size=500):
     """

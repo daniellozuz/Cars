@@ -1,6 +1,15 @@
 import tensorflow as tf
+import os
+import yaml
 
-NUM_LABELS = 196
+
+CONFIG = yaml.load(open(os.path.join('config', '1.yml'), 'r'))
+NUM_LABELS = CONFIG['NUM_LABELS']
+IMAGE_SIZE = CONFIG['IMAGE_SIZE']
+K = CONFIG['K']
+C1 = CONFIG['C1']
+C2 = CONFIG['C2']
+P = CONFIG['P']
 
 class Model(object):
     def __init__(self, batch_size=16, learning_rate=1e-4, num_labels=NUM_LABELS):
@@ -10,9 +19,9 @@ class Model(object):
 
     def inference(self, images, keep_prob):
         with tf.variable_scope('conv1') as scope:
-            kernel = self._create_weights([5, 5, 1, 8])
+            kernel = self._create_weights([K, K, 1, C1])
             conv = self._create_conv2d(images, kernel)
-            bias = self._create_bias([8])
+            bias = self._create_bias([C1])
             preactivation = tf.nn.bias_add(conv, bias)
             conv1 = tf.nn.relu(preactivation, name=scope.name)
             self._activation_summary(conv1)
@@ -21,9 +30,9 @@ class Model(object):
         h_pool1 = self._create_max_pool_2x2(conv1)
 
         with tf.variable_scope('conv2') as scope:
-            kernel = self._create_weights([5, 5, 8, 16])
+            kernel = self._create_weights([K, K, C1, C2])
             conv = self._create_conv2d(h_pool1, kernel)
-            bias = self._create_bias([16])
+            bias = self._create_bias([C2])
             preactivation = tf.nn.bias_add(conv, bias)
             conv2 = tf.nn.relu(preactivation, name=scope.name)
             self._activation_summary(conv2)
@@ -32,14 +41,14 @@ class Model(object):
         h_pool2 = self._create_max_pool_2x2(conv2)
 
         with tf.variable_scope('local1') as scope:
-            reshape = tf.reshape(h_pool2, [-1, 14 * 14 * 16])
-            W_fc1 = self._create_weights([14 * 14 * 16, 1024])
-            b_fc1 = self._create_bias([1024])
+            reshape = tf.reshape(h_pool2, [-1, (IMAGE_SIZE // 4) * (IMAGE_SIZE // 4) * C2])
+            W_fc1 = self._create_weights([(IMAGE_SIZE // 4) * (IMAGE_SIZE // 4) * C2, P])
+            b_fc1 = self._create_bias([P])
             local1 = tf.nn.relu(tf.matmul(reshape, W_fc1) + b_fc1, name=scope.name)
             self._activation_summary(local1)
 
         with tf.variable_scope('local2_linear') as scope:
-            W_fc2 = self._create_weights([1024, self._num_labels])
+            W_fc2 = self._create_weights([P, self._num_labels])
             b_fc2 = self._create_bias([self._num_labels])
             local1_drop = tf.nn.dropout(local1, keep_prob)
             local2 = tf.nn.bias_add(tf.matmul(local1_drop, W_fc2), b_fc2, name=scope.name)
