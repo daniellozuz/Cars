@@ -3,7 +3,7 @@ import numpy as np
 
 def load_train_data(data_path, num_labels, image_size, validation_size=500, **kwargs):
     """
-    Load mnist data. Each row in csv is formatted (label, input)
+    Load data. Each row in csv is formatted (label, input)
     :return: 3D Tensor input of train and validation set with 2D Tensor of one hot encoded image labels
     """
     # Data format: 1 byte label, n * n input
@@ -30,7 +30,7 @@ def load_train_data(data_path, num_labels, image_size, validation_size=500, **kw
 
 def load_test_data(data_path, num_labels, image_size, **kwargs):
     """
-    Load mnist test data
+    Load test data
     :return: 3D Tensor input of train and validation set with 2D Tensor of one hot encoded image labels
     """
     test_data = np.genfromtxt(data_path, delimiter=',', dtype=np.float32)

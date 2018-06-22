@@ -8,3 +8,4 @@ Filename: 7.yml Accuracy: 0.1733 Gain: 73.27% {'num_labels': 10, 'image_size': 5
 Filename: 8.yml Accuracy: 0.0227 Gain: 13.69% {'num_labels': 50, 'image_size': 56, 'num_iter': 5000, 'k': 5, 'c1': 32, 'c2': 64, 'p': 1024}
 Filename: 1.yml Accuracy: 0.1163 Gain: 16.34% {'num_labels': 10, 'image_size': 28, 'num_iter': 1000, 'k': 5, 'c1': 8, 'c2': 16, 'p': 256}
 Filename: 1.yml Accuracy: 0.1535 Gain: 53.47% {'num_labels': 10, 'image_size': 28, 'num_iter': 1000, 'k': 5, 'c1': 8, 'c2': 16, 'p': 256}
+Filename: 1.yml Accuracy: 0.1337 Gain: 33.66% {'num_labels': 10, 'image_size': 28, 'num_iter': 1000, 'k': 5, 'c1': 8, 'c2': 16, 'p': 256}

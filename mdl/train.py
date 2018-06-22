@@ -3,7 +3,7 @@ import os
 import yaml
 import sys
 
-import mdl.mnist as mnist
+import mdl.data_loader as data_loader
 from mdl.model import Model
 
 
@@ -16,7 +16,7 @@ def train():
     model = Model(**CONFIG)
 
     with tf.Graph().as_default():
-        images, val_images, labels, val_labels = mnist.load_train_data(FLAGS.train_data, CONFIG['num_labels'], CONFIG['image_size'])
+        images, val_images, labels, val_labels = data_loader.load_train_data(FLAGS.train_data, CONFIG['num_labels'], CONFIG['image_size'])
 
         x = tf.placeholder(shape=[None, CONFIG['image_size'], CONFIG['image_size'], 1], dtype=tf.float32, name='x')
         y = tf.placeholder(shape=[None, CONFIG['num_labels']], dtype=tf.float32, name='y')

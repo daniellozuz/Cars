@@ -3,7 +3,7 @@ import os
 import yaml
 import sys
 
-from mdl import mnist
+from mdl import data_loader
 from mdl.model import Model
 
 
@@ -14,7 +14,7 @@ FLAGS = tf.app.flags.FLAGS
 
 def evaluate():
     with tf.Graph().as_default():
-        images, labels = mnist.load_test_data(FLAGS.test_data, **CONFIG)
+        images, labels = data_loader.load_test_data(FLAGS.test_data, **CONFIG)
         model = Model(**CONFIG)
         logits = model.inference(images, keep_prob=1.0)
         accuracy = model.accuracy(logits, labels)
