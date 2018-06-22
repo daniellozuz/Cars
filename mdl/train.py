@@ -3,8 +3,8 @@ import os
 import yaml
 import sys
 
-import mnist_conv2d_medium_tutorial.mnist as mnist
-from mnist_conv2d_medium_tutorial.model import Model
+import mdl.mnist as mnist
+from mdl.model import Model
 
 
 CONFIG = yaml.load(open(os.path.join('config', sys.argv[1]), 'r'))

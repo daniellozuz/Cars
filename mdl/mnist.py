@@ -6,7 +6,7 @@ def load_train_data(data_path, num_labels, image_size, validation_size=500, **kw
     Load mnist data. Each row in csv is formatted (label, input)
     :return: 3D Tensor input of train and validation set with 2D Tensor of one hot encoded image labels
     """
-    # Data format: 1 byte label, 28 * 28 input
+    # Data format: 1 byte label, n * n input
     train_data = np.genfromtxt(data_path, delimiter=',', dtype=np.float32)
     np.random.shuffle(train_data)
     x_train = train_data[:, 1:]

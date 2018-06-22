@@ -3,8 +3,8 @@ import os
 import yaml
 import sys
 
-from mnist_conv2d_medium_tutorial import mnist
-from mnist_conv2d_medium_tutorial.model import Model
+from mdl import mnist
+from mdl.model import Model
 
 
 CONFIG = yaml.load(open(os.path.join('config', sys.argv[1]), 'r'))
@@ -29,7 +29,7 @@ def evaluate():
             better = 100 * (total_accuracy[0] * CONFIG['num_labels'] - 1)
             print('{}% better than random'.format(better))
             with open('results.txt', 'a') as results_file:
-                results_file.write('{} {} {}\n'.format(sys.argv[1], total_accuracy[0], better))
+                results_file.write('Filename: {} Accuracy: {:.4f} Gain: {:.2f}% {}\n'.format(sys.argv[1], total_accuracy[0], better, CONFIG))
 
 def main(argv=None):
     evaluate()
