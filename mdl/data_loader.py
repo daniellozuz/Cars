@@ -1,11 +1,12 @@
 import numpy as np
 
 
-def load_train_data(data_path, num_labels, image_size, validation_size=500, **kwargs):
+def load_train_data(data_path, num_labels, image_size, validation_size=100, **kwargs):
     """
     Load data. Each row in csv is formatted (label, input)
     :return: 3D Tensor input of train and validation set with 2D Tensor of one hot encoded image labels
     """
+    print(validation_size)
     # Data format: 1 byte label, n * n input
     train_data = np.genfromtxt(data_path, delimiter=',', dtype=np.float32)
     np.random.shuffle(train_data)

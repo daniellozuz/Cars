@@ -16,7 +16,7 @@ def train():
     model = Model(**CONFIG)
 
     with tf.Graph().as_default():
-        images, val_images, labels, val_labels = data_loader.load_train_data(FLAGS.train_data, CONFIG['num_labels'], CONFIG['image_size'])
+        images, val_images, labels, val_labels = data_loader.load_train_data(FLAGS.train_data, CONFIG['num_labels'], CONFIG['image_size'], validation_size=CONFIG['num_labels']*5)
 
         x = tf.placeholder(shape=[None, CONFIG['image_size'], CONFIG['image_size'], 1], dtype=tf.float32, name='x')
         y = tf.placeholder(shape=[None, CONFIG['num_labels']], dtype=tf.float32, name='y')
@@ -38,14 +38,13 @@ def train():
             sess.run(init)
             for i in range(FLAGS.num_iter):
                 offset = (i * FLAGS.batch_size) % (len(images) - FLAGS.batch_size)
-                batch_x, batch_y = images[offset:(offset + FLAGS.batch_size), :], labels[
-                                                                                  offset:(offset + FLAGS.batch_size), :]
+                batch_x, batch_y = images[offset:(offset + FLAGS.batch_size), :], labels[offset:(offset + FLAGS.batch_size), :]
 
                 _, cur_loss, summary = sess.run([train_op, loss, summary_op],
-                                                feed_dict={x: batch_x, y: batch_y, keep_prob: 0.5})
+                                                feed_dict={x: batch_x, y: batch_y, keep_prob: 1.0})
                 writer.add_summary(summary, i)
                 #print(i, cur_loss)
-                if i % int(CONFIG['num_iter'] / 10) == 0:
+                if i % int(CONFIG['num_iter'] // 10) == 0:
                     validation_accuracy = accuracy.eval(feed_dict={x: val_images, y: val_labels, keep_prob: 1.0})
                     print('Iter {} Accuracy: {}'.format(i, validation_accuracy))
 
@@ -58,7 +57,7 @@ def main(argv=None):
 
 
 if __name__ == '__main__':
-    tf.app.flags.DEFINE_integer('batch_size', 16, 'size of training batches')
+    tf.app.flags.DEFINE_integer('batch_size', 128, 'size of training batches')
     tf.app.flags.DEFINE_integer('num_iter', CONFIG['num_iter'], 'number of training iterations')
     tf.app.flags.DEFINE_string('checkpoint_file_path', 'checkpoints/model.ckpt-' + str(CONFIG['num_iter']), 'path to checkpoint file')
     tf.app.flags.DEFINE_string('train_data', 'data/cars_train.csv', 'path to train and test data')

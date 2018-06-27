@@ -61,7 +61,6 @@ class Model(object):
             cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=labels)
             cost = tf.reduce_mean(cross_entropy, name=scope.name)
             tf.summary.scalar('cost', cost)
-
         return cost
 
     def accuracy(self, logits, y):
