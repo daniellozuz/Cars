@@ -1,3 +1,6 @@
+# TODO add project preparation step (downloading images and setting up the folder structure)
+# TODO try working with mnist set, and resolve issues there
+
 import os
 import yaml
 import pprint
