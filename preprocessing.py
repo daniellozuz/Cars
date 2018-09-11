@@ -43,10 +43,10 @@ with open(os.path.join('data', 'cars_all.csv'), 'w') as car_file,\
             break
         resized = cv2.resize(image[x1:x2, y1:y2], (CONFIG['image_size'], CONFIG['image_size']))
         entry = [label] + [item for row in resized for item in row]
-        all_writer.writerow(entry)
         if index % 2 == 0:
             train_writer.writerow(entry)
         else:
             test_writer.writerow(entry)
+        all_writer.writerow(entry)
 
 cv2.destroyAllWindows()

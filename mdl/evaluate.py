@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy as np
 import os
 import yaml
 import sys
@@ -23,6 +24,9 @@ def evaluate():
         with tf.Session() as sess:
             tf.global_variables_initializer().run()
             saver.restore(sess, FLAGS.checkpoint_file_path)
+
+            confusion_matrix = tf.confusion_matrix(tf.argmax(logits, 1), tf.argmax(labels, 1))
+            print(sess.run([confusion_matrix]))
 
             total_accuracy = sess.run([accuracy])
             print('Test accuracy: {}'.format(total_accuracy))

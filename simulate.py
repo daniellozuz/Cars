@@ -4,10 +4,10 @@ import pprint
 
 
 CONFIGS = [
-    '1.yml',
+    # '1.yml',
     # '2.yml',
     # '3.yml',
-    # '4.yml',
+    '4.yml',
     # '5.yml',
     # '6.yml',
     # '7.yml',
