@@ -1,2 +1,9 @@
 *.pyc
+*.npy
+*.tgz
+*.csv
+*.jpg
+*.mat
+checkpoints
+graphs
 
